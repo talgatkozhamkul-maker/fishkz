@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { SITE_URL } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
 import { emailSchema, otpSchema } from "@/lib/validation";
 
@@ -20,11 +21,18 @@ export async function requestCode(
     return { step: "email", email: "", error: "Введите корректный e-mail" };
   }
   const email = parsed.data.toLowerCase();
+  const next = String(formData.get("next") ?? "/profile");
+  const safeNext = next.startsWith("/") ? next : "/profile";
 
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithOtp({
     email,
-    options: { shouldCreateUser: true },
+    options: {
+      shouldCreateUser: true,
+      // Стандартное письмо Supabase ведёт по ссылке — обрабатываем её в
+      // /auth/callback (редактирование шаблона требует своего SMTP).
+      emailRedirectTo: `${SITE_URL}/auth/callback?next=${encodeURIComponent(safeNext)}`,
+    },
   });
   if (error) {
     const msg = error.message.includes("rate")
