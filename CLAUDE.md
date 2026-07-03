@@ -17,7 +17,8 @@ PWA-сервис: каталог водоёмов (17 областей, виды
   ВАЖНО (Next 16): middleware называется proxy.ts; сегмент-конфиг revalidate
   работает (cacheComponents НЕ включать). Документация — node_modules/next/dist/docs.
 - Supabase: Postgres, Auth (e-mail OTP), Storage. Vercel. PWA.
-- Одобренные библиотеки: zod, react-markdown + remark-gfm, lucide-react.
+- Одобренные библиотеки: zod, react-markdown + remark-gfm, lucide-react,
+  maplibre-gl (карта на главной; тайлы OpenFreeMap, без ключей).
   Новые — только после явного согласия владельца.
 
 ## Правила кода

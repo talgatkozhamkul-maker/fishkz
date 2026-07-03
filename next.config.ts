@@ -28,9 +28,17 @@ const nextConfig: NextConfig = {
               "default-src 'self'",
               // 'unsafe-inline' для стилей — требование Tailwind/Next inline-стилей
               "style-src 'self' 'unsafe-inline'",
-              "script-src 'self' 'unsafe-inline'",
-              `img-src 'self' data: https://${supabaseHost}`,
-              `connect-src 'self' https://${supabaseHost}`,
+              // 'unsafe-eval' нужен только React DevTools в режиме разработки;
+              // в продакшн-сборке не добавляется
+              process.env.NODE_ENV === "development"
+                ? "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
+                : "script-src 'self' 'unsafe-inline'",
+              // blob: — спрайты/иконки MapLibre; tiles.openfreemap.org — тайлы карты
+              `img-src 'self' data: blob: https://${supabaseHost}`,
+              `connect-src 'self' https://${supabaseHost} https://tiles.openfreemap.org`,
+              // MapLibre рендерит в web worker из blob
+              "worker-src 'self' blob:",
+              "child-src blob:",
               "font-src 'self'",
               "frame-ancestors 'none'",
               "base-uri 'self'",

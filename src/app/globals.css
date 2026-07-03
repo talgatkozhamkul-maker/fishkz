@@ -22,3 +22,55 @@ html {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* === Карта: метки водоёмов и точка «вы здесь» === */
+.fishkz-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50% 50% 50% 4px;
+  background: var(--marker-color, #0d9488);
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+.fishkz-marker:hover {
+  transform: scale(1.15);
+}
+.fishkz-marker-active {
+  transform: scale(1.25);
+  z-index: 5;
+  outline: 3px solid rgba(245, 158, 11, 0.6);
+  outline-offset: 1px;
+}
+
+.fishkz-user-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #2563eb;
+  border: 3px solid #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+  position: relative;
+}
+.fishkz-user-dot::after {
+  content: "";
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  background: rgba(37, 99, 235, 0.25);
+  animation: fishkz-pulse 2s ease-out infinite;
+}
+@keyframes fishkz-pulse {
+  0% {
+    transform: scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
